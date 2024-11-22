@@ -22,7 +22,7 @@ class MessageHandler:
         print(message_text)
         print(chat_id)
         print(user_id)
-        self.distribution.massage(chat_id,user_id, message_text)
+        self.distribution.message(chat_id, user_id, message_text)
 
     def handle_file_message(self, message, bot_instance):
         chat_id = message.chat.id

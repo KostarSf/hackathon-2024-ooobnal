@@ -10,16 +10,18 @@ class Distribution:
         self.request_handler = self.master.request_handler
         self.database = self.master.database
 
-    def massage(self, chat_id,user_id, massage_text):
-        answer = self.request_handler.main_entrance("sub_main",[{"role": "user" ,"content" :massage_text}],"Normal",str(chat_id))
-        last_id = self.database.create("chat_history", [chat_id,user_id], chat_id, False)
-        self.database.update(chat_id,"chat_history", last_id,"txt_mes", massage_text)
-        self.database.update(chat_id,"chat_history", last_id,"role", "user")
-        last_id = self.database.create("chat_history", [chat_id, user_id], chat_id, False)
+    def message(self, chat_id, user_id, message_text):
+        answer = self.request_handler.main_entrance("main",
+                                                    [{"role": "user", "content": message_text}],
+                                                    "Normal",
+                                                    str(chat_id))
+        last_id = self.database.create("chat_history", [chat_id, user_id], chat_id, True)
+        self.database.update(chat_id,"chat_history", last_id, "txt_mes", message_text)
+        self.database.update(chat_id,"chat_history", last_id, "role", "user")
+
+        last_id = self.database.create("chat_history", [chat_id, user_id], chat_id, True)
         self.database.update(chat_id, "chat_history", last_id, "txt_mes", answer["data"])
-        self.database.update(chat_id, "chat_history", last_id, "role", "user")
-
-
+        self.database.update(chat_id, "chat_history", last_id, "role", "system")
 
         if answer["status"] == "successfully":
             self.message_handler.send_message_user(chat_id, answer["data"])
@@ -52,12 +54,12 @@ class Distribution:
 
         self.loop_waiting(file_init_label)
 
-        answer = self.request_handler.main_entrance("sub_main", [{"role": "file", "content": f"Содержание файла: file::{file_base_name}::file\n", "indexing": True, "weight": 0.5}, {"role": "user", "content": text}], "VB", str(chat_id))
+        answer = self.request_handler.main_entrance("main", [{"role": "file", "content": f"Содержание файла: file::{file_base_name}::file\n", "indexing": True, "weight": 0.5}, {"role": "user", "content": text}], "VB", str(chat_id))
 
         if answer["status"] == "successfully":
             self.message_handler.send_message_user(chat_id, answer["data"])
         else:
-            print("Ошбика обработки", answer)
+            print("Ошибка обработки", answer)
             self.message_handler.send_message_user(chat_id, "Я почему-то сломался(\nПопробуйте написать позже.")
 
 

@@ -197,7 +197,7 @@ class Database:
             col_name_str = ', '.join(col_name_list)
             q_str = ', '.join(['?'] * len(value))
 
-            if self.deep_get(chat_id,tab_name,["id"],' AND '.join([f"{col} = {repr(val)}" for col, val in zip(col_name_list, value)])):
+            if self.deep_get(chat_id, tab_name, ["id"], ' AND '.join([f"{col} = {repr(val)}" for col, val in zip(col_name_list, value)])):
                 if not repetitions: return
 
             query = f'INSERT INTO {tab_name} ({col_name_str}) VALUES ({q_str})'
