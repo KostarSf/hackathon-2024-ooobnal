@@ -1,0 +1,26 @@
+{
+  "parameters": [
+    {
+      "open_AI": {
+        "api_key": "UZLie1GwiWrTF3mEOHLnAdTEDI6LNO2bUhUE1mmFh_uLiVJeCbBsEI7JlIm-W_4NQlBKYNjjYZT3BlbkFJBJ_4HdjrBTfwUdeP0yMpFm1hr5YPOK8UyieQ8ZR7bKJffukBpTTByXyimONGUfzoNUuuKdzt8A"
+      },
+      "local_LLM_llama_cpp": {
+        "params_model": {
+          "model_path": "",
+          "n_ctx": 32000,
+          "n_parts": 1
+        },
+        "params_query": {
+          "system_prompt": "Инструкция поведения:{instruction}\\nТебе дан запрос и дополнительная инфомрация к нему, контекст переписки или системная информация. Сформируй ответ на запрос, следуя инструкции, используя дополнительную инфомрацию.\\n\\n{message_history}</s>",
+          "gpt-4o": {
+              "top_k": 30,
+              "top_p": 0.9,
+              "temp": 0.2,
+              "repeat_penalty": 1.1
+          },
+          "gpt-4o-mini": {}
+        }
+      }
+    }
+  ]
+}

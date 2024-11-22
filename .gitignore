@@ -1,0 +1,4 @@
+.venv
+bot_pid.pid
+model.safetensors
+__pycache__/

@@ -1,0 +1,11 @@
+{
+  "parameters": [
+    {
+      "index_name": "",
+      "es_url": "",
+      "es_user": "",
+      "es_password": "",
+      "verif_certs_path": ""
+    }
+  ]
+}

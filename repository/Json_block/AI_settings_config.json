@@ -1,0 +1,16 @@
+{
+  "parameters": [
+    {
+      "settings_model_config": {
+        "main": {
+          "model_name": "gpt-4o",
+          "return_func": "None"
+        },
+        "gen_model": {
+          "model_name": "gpt-4o-mini",
+          "return_func": "None"
+        }
+      }
+    }
+  ]
+}

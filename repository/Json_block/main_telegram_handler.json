@@ -1,0 +1,13 @@
+{
+  "parameters": [
+    {
+      "path_telegram_storage_folder": "telegram_storage/",
+      "path_file_folder": "init_file_telegram/",
+      "file_name_for_init_file_dict": "init_file_dict.json",
+      "chat_history_folder": "chat_history/",
+      "save_chat_history_window": 500,
+      "context_window": 50,
+      "file_memory_window": 10
+    }
+  ]
+}

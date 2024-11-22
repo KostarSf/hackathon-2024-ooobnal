@@ -1,0 +1,11 @@
+{
+  "parameters": [
+      {
+        "token" : "8156866069:AAEZmKlB4DdPTtjZ-NAYw8_ZJja9XSGN2Tk",
+
+        "debugging_mode" : true,
+
+        "test_mode": false
+      }
+  ]
+}

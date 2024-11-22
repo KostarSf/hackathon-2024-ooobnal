@@ -1,0 +1,29 @@
+ {
+  "parameters": [
+    {
+      "init_module_API": "API_OpenAI",
+      "init_class_API": "API",
+
+      "embeddings_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "tiktoken_encoding_model": "gpt-4o",
+
+      "type_vectorstore": "Chroma",
+      "storage_path_folder": "../storage/",
+      "vectorstore_folder": "vector_store/",
+      "vectorstore_temp_folder": "temp/",
+      "vectorstore_metadata": {
+        "hnsw:M": 30,
+        "hnsw:construction_ef": 200
+      },
+
+      "weight_cleaning_boundary":0.2,
+
+      "chunk_size_splitter":1000,
+      "chunk_overlap_splitter": 0,
+
+      "limit_token": 30000,
+
+      "cache_activate": false
+    }
+  ]
+}

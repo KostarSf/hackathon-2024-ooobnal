@@ -1,0 +1,38 @@
+{
+  "parameters": [
+    {
+      "table": {
+        "chat_history": {
+          "config": {
+            "important": {
+              "user_id": {
+                "type": "INTEGER NOT NULL",
+                "description": "Системное поле уникальное user_id пользователя"
+              },
+              "chat_id": {
+                "type": "INTEGER NOT NULL",
+                "description": "Системное поле уникальное chat_id пользователя"
+              }
+            },
+            "no_important": {
+              "txt_mes": {
+                "type": "TEXT",
+                "description": "Cодержание сообщения"
+              },
+              "role": {
+                "type": "TEXT",
+                "description": "Системное поле роль отправителя"
+              }
+            }
+          },
+          "description": "Хранит информацию о переписки системы и пользователя",
+          "triggers": {
+          },
+          "functions": {
+          }
+        }
+      }
+    }
+    ]
+    }
+
