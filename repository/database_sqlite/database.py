@@ -220,11 +220,11 @@ class Database:
     def deep_update(self, chat_id, tab_name, id, field_name, new_value):
         valid_fields = self.get_table_column(tab_name)
         if field_name in valid_fields:
-            query = f"UPDATE {tab_name} SET {field_name} = ? WHERE id = ?"
+            query = f"UPDATE {tab_name} SET {field_name} = ? WHERE id = ? AND chat_id = ?"
             try:
                 # Создаем запрос для обновления поля
                 cursor = self.conn.cursor()
-                cursor.execute(query, (new_value, id))
+                cursor.execute(query, (new_value, id, chat_id))
 
                 self.conn.commit()
                 # info = f"Поле {field_name} таблицы {tab_name} успешно обновлено на {new_value}."

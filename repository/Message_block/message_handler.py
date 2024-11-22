@@ -47,9 +47,9 @@ class MessageHandler:
 
             if message.caption:
                 text = message.caption
-                self.distribution.file_text_handler(chat_id,text,file_base_name,file_type,downloaded_file)
+                self.distribution.file_text_handler(chat_id, user_id, text, file_base_name, file_type, downloaded_file)
             else:
-                self.distribution.file_handler(chat_id,file_base_name,file_type,downloaded_file)
+                self.distribution.file_handler(chat_id, user_id, file_base_name, file_type, downloaded_file)
 
 
     def create_directory(self, path):
