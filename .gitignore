@@ -2,3 +2,6 @@
 bot_pid.pid
 model.safetensors
 __pycache__/
+vector_store/
+docs/
+*.db
