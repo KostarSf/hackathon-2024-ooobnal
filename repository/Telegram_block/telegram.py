@@ -10,6 +10,7 @@ import sys
 import os
 import json
 
+
 class TelegramBot:
     def __init__(self, master):
         print("START TELEGRAM HANDLER -> TELEGRAM")
@@ -94,6 +95,7 @@ class TelegramBot:
                 cleaned_message_out = self.check_csv(chat_id, message_out)
                 splitted_message = [cleaned_message_out[i:i + 1000] for i in range(0, len(cleaned_message_out), 1000)]
                 for chunk in splitted_message:
+                    self.master.telegram_anim.stop_animation(chat_id)
                     self.bot.send_message(chat_id, chunk)
             else:
                 self.master.testing.send_message(chat_id, message_out)

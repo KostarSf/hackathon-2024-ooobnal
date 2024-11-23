@@ -15,7 +15,6 @@ class Distribution:
 
     def message(self, chat_id, user_id, message_text):
         try:
-            self.message_handler.send_message_user(chat_id, "Думаю...")
 
             messages = self.get_chat_messages(chat_id)
             if not messages:
@@ -37,7 +36,6 @@ class Distribution:
 
     def file_handler(self, chat_id, user_id, file_base_name, file_type, downloaded_file):
         try:
-            self.message_handler.send_message_user(chat_id, "Думаю...")
 
             unique_file_name = self.create_unique_file_name(file_base_name)
             file_init_label = self.request_handler.main_entrance(
@@ -68,7 +66,6 @@ class Distribution:
 
     def file_text_handler(self, chat_id, user_id, text, file_base_name, file_type, downloaded_file):
         try:
-            self.message_handler.send_message_user(chat_id, "Думаю...")
 
             unique_file_name = self.create_unique_file_name(file_base_name)
             file_init_label = self.request_handler.main_entrance(

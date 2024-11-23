@@ -3,10 +3,10 @@ import os
 import emoji
 
 
-
 class MessageHandler:
     def __init__(self, master):
         self.master = master
+
 
 
     def _complex_init(self):
@@ -17,6 +17,7 @@ class MessageHandler:
         chat_id = message.chat.id
         user_id = message.from_user.id
         message_text = self.get_message_text(message.text)
+        self.master.telegram_anim.set_animation(chat_id, "Обрабатываю", time_change=1)
 
         print(message.text)
         print(message_text)
@@ -31,6 +32,7 @@ class MessageHandler:
         file_name = message.document.file_name
         file_base_name, file_type = os.path.splitext(file_name)
         file_type = file_type[1:]
+        self.master.telegram_anim.set_animation(chat_id, "Обрабатываю", time_change=1)
         # mime_type = document.mime_type
         # file_size = document.file_size
 
