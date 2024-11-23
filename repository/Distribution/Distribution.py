@@ -81,7 +81,8 @@ class Distribution:
             else:
                 print("Ошибка обработки", answer)
                 self.message_handler.send_message_user(chat_id, "Я почему-то сломался(\nПопробуйте написать позже.")
-        except:
+        except Exception as error:
+            print(error)
             self.message_handler.send_message_user(chat_id, "Я почему-то сломался(\nПопробуйте написать позже.")
 
     def create_unique_file_name(self, file_base_name):

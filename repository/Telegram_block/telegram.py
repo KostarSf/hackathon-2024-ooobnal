@@ -1,6 +1,7 @@
 import random
 
 import telebot
+import shutil
 
 import threading
 import time
@@ -31,11 +32,67 @@ class TelegramBot:
         if self.master.debugging_mode:
             print(*args)
 
+    def check_csv(self, chat_id, text):
+        start_marker_phrase = "CSV START"
+        end_marker_phrase = "CSV END"
+
+        start_index = text.find(start_marker_phrase)
+        end_index = text.find(end_marker_phrase)
+
+        base_folder = "./tmp"
+        sub_folder = os.path.join(base_folder, str(chat_id))
+        file_path = os.path.join(sub_folder, "table.csv")
+        os.makedirs(sub_folder, exist_ok=True)
+
+        if start_index != -1 and end_index != -1:
+            start_line_start = text.rfind('\n', 0, start_index)
+            end_line_end = text.find('\n', end_index)
+
+            if start_line_start == -1:
+                start_line_start = 0
+            if end_line_end == -1:
+                end_line_end = len(text)
+            else:
+                end_line_end += 1
+
+            csv_content = text[start_index + len(start_marker_phrase):end_index].strip()
+
+            csv_lines = [line for line in csv_content.splitlines() if line.strip() != "==="]
+            csv_content_cleaned = "\n".join(csv_lines)
+
+            with open(file_path, "w", newline="", encoding="utf-8") as file:
+                file.write(csv_content_cleaned + '\n')
+
+            print(f"CSV-файл успешно создан по пути: {file_path}")
+
+            text = text[:start_line_start] + text[end_line_end:]
+            text = text.strip()
+
+        else:
+            print("Маркеры 'CSV START' и/или 'CSV END' не найдены.")
+
+        lines = text.splitlines()
+        cleaned_text = "\n".join(line for line in lines if line.strip())
+
+        if not cleaned_text:
+            cleaned_text = "Я сформировал таблицу с данными"
+            with open(file_path, 'rb') as file:
+                self.bot.send_document(chat_id, file)
+
+        if os.path.exists(sub_folder):
+            shutil.rmtree(sub_folder)
+            print(f"Папка {sub_folder} была удалена.")
+        else:
+            print(f"Папка {sub_folder} не существует")
+
+        return cleaned_text
+
     ############ MESSAGE SEND ##############
     def send_message_users(self, chat_id_list, message_out):
         for chat_id in chat_id_list:
             if not self.master.test_mode:
-                self.bot.send_message(chat_id, message_out)
+                new_message_out = self.check_csv(chat_id, message_out)
+                self.bot.send_message(chat_id, new_message_out)
             else:
                 self.master.testing.send_message(chat_id, message_out)
 
