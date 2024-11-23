@@ -29,9 +29,7 @@ class Distribution:
             self.add_chat_message(chat_id, user_id, "user", message_text)
             self.add_chat_message(chat_id, user_id, "assistant", answer)
 
-            splitted_answer = [answer[i:i + 1000] for i in range(0, len(answer), 1000)]
-            for chunk in splitted_answer:
-                self.message_handler.send_message_user(chat_id, chunk)
+            self.message_handler.send_message_user(chat_id, answer)
         except Exception as error:
             print(error)
             self.message_handler.send_message_user(chat_id, "Я почему-то сломался(\nПопробуйте написать позже.")
@@ -63,9 +61,7 @@ class Distribution:
 
             self.add_chat_message(chat_id, user_id, "assistant", answer)
 
-            splitted_answer = [answer[i:i + 1000] for i in range(0, len(answer), 1000)]
-            for chunk in splitted_answer:
-                self.message_handler.send_message_user(chat_id, chunk)
+            self.message_handler.send_message_user(chat_id, answer)
         except Exception as error:
             print(error)
             self.message_handler.send_message_user(chat_id, "Я почему-то сломался(\nПопробуйте написать позже.")
@@ -96,9 +92,7 @@ class Distribution:
 
             self.add_chat_message(chat_id, user_id, "assistant", answer)
 
-            splitted_answer = [answer[i:i + 1000] for i in range(0, len(answer), 1000)]
-            for chunk in splitted_answer:
-                self.message_handler.send_message_user(chat_id, chunk)
+            self.message_handler.send_message_user(chat_id, answer)
         except Exception as error:
             print(error)
             self.message_handler.send_message_user(chat_id, "Я почему-то сломался(\nПопробуйте написать позже.")

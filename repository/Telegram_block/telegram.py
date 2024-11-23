@@ -91,8 +91,10 @@ class TelegramBot:
     def send_message_users(self, chat_id_list, message_out):
         for chat_id in chat_id_list:
             if not self.master.test_mode:
-                new_message_out = self.check_csv(chat_id, message_out)
-                self.bot.send_message(chat_id, new_message_out)
+                cleaned_message_out = self.check_csv(chat_id, message_out)
+                splitted_message = [cleaned_message_out[i:i + 1000] for i in range(0, len(cleaned_message_out), 1000)]
+                for chunk in splitted_message:
+                    self.bot.send_message(chat_id, chunk)
             else:
                 self.master.testing.send_message(chat_id, message_out)
 

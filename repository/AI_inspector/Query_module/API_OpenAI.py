@@ -15,6 +15,7 @@ class API:
     def query_handler(self, model_name, messages_history):
         completion = self.client.chat.completions.create(
             model=model_name,
-            messages=messages_history)
+            messages=messages_history,
+            temperature=0.2)
         data = completion.choices[0].message.content
         return data
