@@ -133,6 +133,11 @@ class Distribution:
         for row in raw_history:
             role = row[3]
             content = row[4]
+
+            if role != "system" or role != "user" or role != "file":
+                role = row[4]
+                content = row[3]
+
             if role != "file":
                 context.append({"role": role, "content": content})
             else:

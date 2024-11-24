@@ -21,7 +21,7 @@
       "chunk_size_splitter":1000,
       "chunk_overlap_splitter": 0,
 
-      "limit_token": 30000,
+      "limit_token": 124000,
 
       "cache_activate": false
     }
