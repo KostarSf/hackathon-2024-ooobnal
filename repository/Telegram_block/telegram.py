@@ -65,10 +65,6 @@ class TelegramBot:
                 file.write(csv_content_cleaned + '\n')
 
             print(f"CSV-файл успешно создан по пути: {file_path}")
-
-            text = text[:start_line_start] + text[end_line_end:]
-            text = text.strip()
-
         else:
             print("Маркеры 'CSV START' и/или 'CSV END' не найдены.")
 
@@ -96,12 +92,12 @@ class TelegramBot:
                 cleaned_message_out = self.check_csv(chat_id, message_out)
                 splitted_message = [cleaned_message_out[i:i + 1000] for i in range(0, len(cleaned_message_out), 1000)]
                 for chunk in splitted_message:
-                    self.bot.send_message(chat_id, chunk)
+                    self.bot.send_message(chat_id, chunk, parse_mode=None)
             else:
-                self.master.testing.send_message(chat_id, message_out)
+                self.master.testing.send_message(chat_id, message_out, parse_mode=None)
 
     def send_and_get_message(self, chat_id, message_out):
-        return self.bot.send_message(chat_id, message_out)
+        return self.bot.send_message(chat_id, message_out, parse_mode=None)
 
     def edit_message(self, message, message_out):
         self.bot.edit_message_text(message_out, message.chat.id, message.message_id)
