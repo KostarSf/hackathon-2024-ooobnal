@@ -2,7 +2,7 @@ import random
 
 import telebot
 import shutil
-
+import io
 import threading
 import time
 import requests
@@ -40,12 +40,12 @@ class TelegramBot:
         start_index = text.find(start_marker_phrase)
         end_index = text.find(end_marker_phrase)
 
-        base_folder = "./tmp"
-        sub_folder = os.path.join(base_folder, str(chat_id))
-        file_path = os.path.join(sub_folder, "table.csv")
-        os.makedirs(sub_folder, exist_ok=True)
+        # base_folder = "./tmp"
+        # sub_folder = os.path.join(base_folder, str(chat_id))
+        # file_path = os.path.join(sub_folder, "table.csv")
+        # os.makedirs(sub_folder, exist_ok=True)
 
-        if start_index != -1 and end_index != -1:
+        if start_index != -1 and end_index != -1 and start_index < end_index:
             start_line_start = text.rfind('\n', 0, start_index)
             end_line_end = text.find('\n', end_index)
 
@@ -61,36 +61,53 @@ class TelegramBot:
             csv_lines = [line for line in csv_content.splitlines() if line.strip() != "==="]
             csv_content_cleaned = "\n".join(csv_lines)
 
-            with open(file_path, "w", newline="", encoding="utf-8") as file:
-                file.write(csv_content_cleaned + '\n')
+            file_like = io.BytesIO()
+            file_like.write(csv_content_cleaned.encode('utf-8'))  # Кодируем текст в байты
+            file_like.seek(0)  # Перемещаем указатель в начало файла
 
-            print(f"CSV-файл успешно создан по пути: {file_path}")
+            # Отправляем файл пользователю
+            self.bot.send_document(
+                chat_id=chat_id,
+                document=file_like,
+                visible_file_name="talbe.csv",  # Указываем имя файла
+                caption="Таблица с данными из файла"
+            )
+
+            cleaned_text = text[:start_line_start] + text[end_line_end:]
+            cleaned_text = cleaned_text.strip()
+
+            return cleaned_text
+
+            # with open(file_path, "w", newline="", encoding="utf-8") as file:
+            #     file.write(csv_content_cleaned + '\n')
+            #
+            # print(f"CSV-файл успешно создан по пути: {file_path}")
         else:
             print("Маркеры 'CSV START' и/или 'CSV END' не найдены.")
+        #
+        # lines = text.splitlines()
+        # cleaned_text = "\n".join(line for line in lines if line.strip())
+        #
+        # if not cleaned_text:
+        #     cleaned_text = "Я сформировал таблицу с данными"
+        #     with open(file_path, 'rb') as file:
+        #         self.bot.send_document(chat_id, file)
+        #
+        # if os.path.exists(sub_folder):
+        #     shutil.rmtree(sub_folder)
+        #     print(f"Папка {sub_folder} была удалена.")
+        # else:
+        #     print(f"Папка {sub_folder} не существует")
 
-        lines = text.splitlines()
-        cleaned_text = "\n".join(line for line in lines if line.strip())
-
-        if not cleaned_text:
-            cleaned_text = "Я сформировал таблицу с данными"
-            with open(file_path, 'rb') as file:
-                self.bot.send_document(chat_id, file)
-
-        if os.path.exists(sub_folder):
-            shutil.rmtree(sub_folder)
-            print(f"Папка {sub_folder} была удалена.")
-        else:
-            print(f"Папка {sub_folder} не существует")
-
-        return cleaned_text
+        return text
 
     ############ MESSAGE SEND ##############
     def send_message_users(self, chat_id_list, message_out):
         for chat_id in chat_id_list:
             self.master.telegram_anim.stop_animation(chat_id)
             if not self.master.test_mode:
-                cleaned_message_out = self.check_csv(chat_id, message_out)
-                splitted_message = [cleaned_message_out[i:i + 1000] for i in range(0, len(cleaned_message_out), 1000)]
+                cleaned_text = self.check_csv(chat_id, message_out)
+                splitted_message = [cleaned_text[i:i + 1000] for i in range(0, len(cleaned_text), 1000)]
                 for chunk in splitted_message:
                     self.bot.send_message(chat_id, chunk, parse_mode=None)
             else:

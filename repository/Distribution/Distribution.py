@@ -117,6 +117,9 @@ class Distribution:
             print("Составной запрос. Запрашиваю следующую часть...")
 
             messages.append({"role": "assistant", "content": answer["data"]})
+            print(messages)
+            print(answer["data"])
+
             answer = self.request_handler.main_entrance("main", messages, "VB", str(chat_id))
 
             if answer['status'] != "successfully":
@@ -148,6 +151,7 @@ class Distribution:
 
     def clear_chat_messages(self, chat_id, user_id):
         self.database.execute_sql(chat_id, f"DELETE FROM chat_history WHERE chat_id = {chat_id}")
+        self.add_chat_message(chat_id, user_id, "system", "Если пользователь не отправил запрос и ты отвечаешь первым, используй данные из файла, чтобы составить таблицу с двумя колонками - симптомы и диагноз. Если у диагноза есть несколько симптомов, запиши все симптомы в одну ячейку через точку с запятой. Добавь как можно больше пунктов, если файл большой их должно быть не менее 50ти.")
 
     def add_chat_message(self, chat_id, user_id, role, txt_mes):
         last_id = self.database.create("chat_history", [chat_id, user_id], chat_id, True)

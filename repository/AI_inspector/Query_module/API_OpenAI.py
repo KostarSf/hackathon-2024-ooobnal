@@ -16,6 +16,7 @@ class API:
         completion = self.client.chat.completions.create(
             model=model_name,
             messages=messages_history,
-            temperature=0.2)
+            # temperature=0.2
+        )
         data = completion.choices[0].message.content
         return data
